@@ -1,0 +1,177 @@
+<div id="wrap" class="" bs-active-link>
+     <div header></div>
+
+
+<div class="container" ng-show="!inProgress">
+  <p class = "page-header">Welcome to the online SPM assessment questionnaire. The following survey is comprised of 68 questions aimed at determining the maturity of the SPM practices within your oganization. For each statement, please state whether your organization consistently applies what it describes.<br><br> Press on start once you are ready to begin.</p>
+  <button type="button" class="btn btn-primary" ng-click="start()">Start the assessment</button>
+</div>
+
+<div class="quiz-area container" ng-show="inProgress">
+  <div class="row" ng-show="!assessmentOver">
+    <div class="col col-xs-12 progress-bar progress-bar-primary" progressbar load="someProgress">
+      {{ (id+1) / 68 | percentage:0 }}</div>
+    <div class="col col-xs-12"><p><b>Business function:</b> {{business_function}}</p></div>
+    <div class="col col-xs-12"><p><b>Focus area:</b> {{area}}</p></div>
+    <div class="col col-xs-12"><p><b>Statement {{id+1}} of 68:</b> {{question}}</p></div>
+
+    <div class="col col-md-12 btn-group">
+          <button ng-repeat="option in options" ng-class="($index == 0) ? 'btn btn-md btn-space btn-success' : 'btn btn-md btn-space btn-danger'" ng-model="checkModel.a" ng-click="nextQuestion(option)">{{option}}</button>
+    </div>
+  </div> 
+</div>
+ <div class="container" ng-show="assessmentOver">
+    <h2>Your organization's assessment results</h2>
+    <h3>Maturity profile</h3>
+    <table class="table table-striped">
+    <tr><th>Business function</th><th>Maturity level</th></tr>
+    <tr><td>Requirements management</td><td> {{ maturity_reqmgmt }} </td></tr>
+    <tr><td>Release planning</td><td> {{ maturity_relplan }} </td></tr>
+    <tr><td>Product planning</td><td> {{ maturity_prodplan }} </td></tr>
+    <tr><td>Portfolio management</td><td> {{ maturity_portmgmt }} </td></tr>
+    </table> 
+
+    <p>Your overall maturity level is {{ maturity_level }}. Based on its focus area scores, your organization is in the {{ percentile[15] }} percentile. </p>
+    
+    <br /> 
+    <h3>Detailed overview by focus areas</h3>
+    <table class="table table-striped">
+    <tr><th>Focus area</th>
+    <th>Capability score</th>
+    <th> Percentile</th>
+    </tr>
+    <tr ng-repeat="x in range(15) track by $index"> 
+    <td> {{ fareas[$index] }} </td>
+    <td> {{ focusareas_scores[$index] }} </td> 
+    <td> {{ percentile[$index] }} </td>
+    </tr>
+    </table>
+    <!--<button ng-click="reset()">Re-try assessment</button>-->
+  </div> 
+</div>
+
+<!-- <div id="wrap" class="">
+
+   <div header></div>
+<div class="container">
+<div class="phone-images">
+  <img ng-src="{{img}}"
+       class="phone"
+       ng-repeat="img in phone.images"
+       ng-class="{active: mainImageUrl==img}">
+</div>
+
+<h1>{{phone.name}}</h1>
+
+<p>{{phone.description}}</p>
+
+<ul class="phone-thumbs">
+  <li ng-repeat="img in phone.images">
+    <img ng-src="{{img}}" ng-click="setImage(img)">
+  </li>
+</ul>
+
+<ul class="specs">
+  <li>
+    <span>Availability and Networks</span>
+    <dl>
+      <dt>Availability</dt>
+      <dd ng-repeat="availability in phone.availability">{{availability}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Battery</span>
+    <dl>
+      <dt>Type</dt>
+      <dd>{{phone.battery.type}}</dd>
+      <dt>Talk Time</dt>
+      <dd>{{phone.battery.talkTime}}</dd>
+      <dt>Standby time (max)</dt>
+      <dd>{{phone.battery.standbyTime}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Storage and Memory</span>
+    <dl>
+      <dt>RAM</dt>
+      <dd>{{phone.storage.ram}}</dd>
+      <dt>Internal Storage</dt>
+      <dd>{{phone.storage.flash}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Connectivity</span>
+    <dl>
+      <dt>Network Support</dt>
+      <dd>{{phone.connectivity.cell}}</dd>
+      <dt>WiFi</dt>
+      <dd>{{phone.connectivity.wifi}}</dd>
+      <dt>Bluetooth</dt>
+      <dd>{{phone.connectivity.bluetooth}}</dd>
+      <dt>Infrared</dt>
+      <dd>{{phone.connectivity.infrared | checkmark}}</dd>
+      <dt>GPS</dt>
+      <dd>{{phone.connectivity.gps | checkmark}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Android</span>
+    <dl>
+      <dt>OS Version</dt>
+      <dd>{{phone.android.os}}</dd>
+      <dt>UI</dt>
+      <dd>{{phone.android.ui}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Size and Weight</span>
+    <dl>
+      <dt>Dimensions</dt>
+      <dd ng-repeat="dim in phone.sizeAndWeight.dimensions">{{dim}}</dd>
+      <dt>Weight</dt>
+      <dd>{{phone.sizeAndWeight.weight}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Display</span>
+    <dl>
+      <dt>Screen size</dt>
+      <dd>{{phone.display.screenSize}}</dd>
+      <dt>Screen resolution</dt>
+      <dd>{{phone.display.screenResolution}}</dd>
+      <dt>Touch screen</dt>
+      <dd>{{phone.display.touchScreen | checkmark}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Hardware</span>
+    <dl>
+      <dt>CPU</dt>
+      <dd>{{phone.hardware.cpu}}</dd>
+      <dt>USB</dt>
+      <dd>{{phone.hardware.usb}}</dd>
+      <dt>Audio / headphone jack</dt>
+      <dd>{{phone.hardware.audioJack}}</dd>
+      <dt>FM Radio</dt>
+      <dd>{{phone.hardware.fmRadio | checkmark}}</dd>
+      <dt>Accelerometer</dt>
+      <dd>{{phone.hardware.accelerometer | checkmark}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Camera</span>
+    <dl>
+      <dt>Primary</dt>
+      <dd>{{phone.camera.primary}}</dd>
+      <dt>Features</dt>
+      <dd>{{phone.camera.features.join(', ')}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Additional Features</span>
+    <dd>{{phone.additionalFeatures}}</dd>
+  </li>
+</ul>
+</div>
+</div>
+ -->
