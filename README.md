@@ -1,5 +1,5 @@
-# SPM online benchmark, O&I Utrecht University
+# Software Product Management online benchmark, O&I Utrecht University
 
 ## Overview
 
-SPM assessment benchmark. More info will follow
+Software Product Management assessment benchmark. Appraise your SPM maturity as compared to other industry peers.
